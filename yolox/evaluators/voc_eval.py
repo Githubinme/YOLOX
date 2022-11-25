@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 
+#这里写入你数据集的Annotations文件夹的绝对路径
+root=r'C:\Users\Administrator\OneDrive - 58r7st\文档\GitHub\YOLOX\data\VOCdevkit\VOC2007\Annotations' #尝试修改
 def parse_rec(filename):
     """Parse a PASCAL VOC xml file"""
     tree = ET.parse(filename)
