@@ -11,7 +11,7 @@ from yolox.exp import Exp as MyExp
 class Exp(MyExp):
     def __init__(self):
         super(Exp, self).__init__()
-        self.num_classes = 20
+        self.num_classes = 2  #202211.23修改测试案例20-》2
         self.depth = 0.33
         self.width = 0.50
         self.warmup_epochs = 1
@@ -42,8 +42,10 @@ class Exp(MyExp):
 
         with wait_for_the_master(local_rank):
             dataset = VOCDetection(
-                data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"),
-                image_sets=[('2007', 'trainval'), ('2012', 'trainval')],
+                data_dir="./data/VOCdevkit",
+                # data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"), #修改按教程变更路径信息，不用环境变量
+                # image_sets=[('2007', 'trainval'), ('2012', 'trainval')],
+                image_sets=[('2007', 'trainval')],   #修改删除2012
                 img_size=self.input_size,
                 preproc=TrainTransform(
                     max_labels=50,
@@ -51,6 +53,7 @@ class Exp(MyExp):
                     hsv_prob=self.hsv_prob),
                 cache=cache_img,
             )
+            print('data_dir is'+os.path.abspath("./data/VOCdevkit"))
 
         dataset = MosaicDetection(
             dataset,
@@ -100,7 +103,8 @@ class Exp(MyExp):
         from yolox.data import VOCDetection, ValTransform
 
         valdataset = VOCDetection(
-            data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"),
+            # data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"), #同上，修改至指定路径
+            data_dir="./data/VOCdevkit",
             image_sets=[('2007', 'test')],
             img_size=self.test_size,
             preproc=ValTransform(legacy=legacy),

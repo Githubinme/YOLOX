@@ -317,7 +317,8 @@ class VOCDetection(Dataset):
     def _do_python_eval(self, output_dir="output", iou=0.5):
         rootpath = os.path.join(self.root, "VOC" + self._year)
         name = self.image_set[0][1]
-        annopath = os.path.join(rootpath, "Annotations", "{:s}.xml")
+        # annopath = os.path.join(rootpath, "Annotations", "{:s}.xml")  #去除%s，修改后解决验证找不到的错误
+        annopath = os.path.join(rootpath, "Annotations", "{}.xml")  #修改，试试加上的时候有没有问题   2022.11.25 很有问题，找不到文件
         imagesetfile = os.path.join(rootpath, "ImageSets", "Main", name + ".txt")
         cachedir = os.path.join(
             self.root, "annotations_cache", "VOC" + self._year, name

@@ -77,7 +77,7 @@ for json_file_ in files:
                     xml.write('\t\t</bndbox>\n')
                     xml.write('\t</object>\n')
                     print(json_filename, xmin, ymin, xmax, ymax, label)
-                    xml.write('</annotation>')
+        xml.write('</annotation>')  #重新修改了一下缩进
 # 5.复制图片到 VOC2007/JPEGImages/下
 image_files = glob(labelme_path + "*.jpg")
 print("copy image files to VOC007/JPEGImages/")
