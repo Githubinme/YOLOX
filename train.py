@@ -30,25 +30,30 @@ def make_parser():
         type=str,
         help="url used to set up distributed training",
     )
-    parser.add_argument("-b", "--batch-size", type=int, default=64, help="batch size")
+    parser.add_argument("-b", "--batch-size", type=int, default=4, # 修改64-》4
+                        help="batch size")
     parser.add_argument(
-        "-d", "--devices", default=None, type=int, help="device for training"
+        "-d", "--devices", default=1,  #修改 None-》1
+        type=int, help="device for training"
     )
     parser.add_argument(
         "-f",
         "--exp_file",
-        default=None,
+        default="exps/example/yolox_voc/yolox_voc_s.py", #修改文件None-》exps/example/yolox_voc/yolox_voc_s.py
         type=str,
         help="plz input your experiment description file",
     )
     parser.add_argument(
-        "--resume", default=False, action="store_true", help="resume training"
+        "--resume", default=True,  #False修改成True 可以继续接着训练
+        action="store_true", help="resume training"
     )
-    parser.add_argument("-c", "--ckpt", default=None, type=str, help="checkpoint file")
+    parser.add_argument("-c", "--ckpt", default="YOLOX_outputs/yolox_voc_s/epoch_290_ckpt.pth",  #修改权重？文件 None-》yolox_s.pth
+                                                            #要接着训练的话，修改成default="YOLOX_outputs/yolox_voc_s/best_ckpt.pth"
+                        type=str, help="checkpoint file")
     parser.add_argument(
         "-e",
         "--start_epoch",
-        default=None,
+        default=290,       #修改接着训练 100开始 尝试修改为290
         type=int,
         help="resume training start epoch",
     )
@@ -61,7 +66,7 @@ def make_parser():
     parser.add_argument(
         "--fp16",
         dest="fp16",
-        default=False,
+        default=True,  #修改False -》True
         action="store_true",
         help="Adopting mix precision training.",
     )
