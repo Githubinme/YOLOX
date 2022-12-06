@@ -12,7 +12,8 @@ import cv2
 import torch
 
 from yolox.data.data_augment import ValTransform
-from yolox.data.datasets import COCO_CLASSES
+# from yolox.data.datasets import COCO_CLASSES
+from yolox.data.datasets import VOC_CLASSES   #修改为VOC数据集
 from yolox.exp import get_exp
 from yolox.utils import fuse_model, get_model_info, postprocess, vis
 
@@ -28,12 +29,14 @@ def make_parser():
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
 
     parser.add_argument(
-        "--path", default="./assets/dog.jpg", help="path to images or video"
+        "--path", default="./assets/aircraft_107.jpg", #修改 "./assets/dog.jpg" ->
+        help="path to images or video"
     )
     parser.add_argument("--camid", type=int, default=0, help="webcam demo camera id")
     parser.add_argument(
         "--save_result",
         action="store_true",
+        default=True,  #添加True语句
         help="whether to save the inference result of image/video",
     )
 
@@ -41,20 +44,24 @@ def make_parser():
     parser.add_argument(
         "-f",
         "--exp_file",
-        default=None,
+        default='exps/example/yolox_voc/yolox_voc_s.py', #修改None->exps/example/yolox_voc/yolox_voc_s.py
         type=str,
         help="please input your experiment description file",
     )
-    parser.add_argument("-c", "--ckpt", default=None, type=str, help="ckpt for eval")
+    parser.add_argument("-c", "--ckpt", default="YOLOX_outputs/yolox_voc_s/latest_ckpt.pth",# 修改None-》"YOLOX_outputs/yolox_voc_s/latest_ckpt.pth"
+                        type=str, help="ckpt for eval")
     parser.add_argument(
         "--device",
-        default="cpu",
+        default="gpu",  #修改CPU-》GPU
         type=str,
         help="device to run our model, can either be cpu or gpu",
     )
-    parser.add_argument("--conf", default=0.3, type=float, help="test conf")
-    parser.add_argument("--nms", default=0.3, type=float, help="test nms threshold")
-    parser.add_argument("--tsize", default=None, type=int, help="test img size")
+    parser.add_argument("--conf", default=0.3,#保持0.3
+                        type=float, help="test conf")
+    parser.add_argument("--nms", default=0.65,#修改 0.3-》0.65
+                        type=float, help="test nms threshold")
+    parser.add_argument("--tsize", default=640,#修改 None-》640
+                        type=int, help="test img size")
     parser.add_argument(
         "--fp16",
         dest="fp16",
@@ -102,7 +109,7 @@ class Predictor(object):
         self,
         model,
         exp,
-        cls_names=COCO_CLASSES,
+        cls_names=VOC_CLASSES,   # COCO_CLASSES修改为VOC_CLASSES
         trt_file=None,
         decoder=None,
         device="cpu",
@@ -303,7 +310,8 @@ def main(exp, args):
         decoder = None
 
     predictor = Predictor(
-        model, exp, COCO_CLASSES, trt_file, decoder,
+        model, exp, VOC_CLASSES, #修改COCO_CLASEESE->VOC_CLASSES
+        trt_file, decoder,
         args.device, args.fp16, args.legacy,
     )
     current_time = time.localtime()
