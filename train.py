@@ -44,16 +44,16 @@ def make_parser():
         help="plz input your experiment description file",
     )
     parser.add_argument(
-        "--resume", default=True,  #False修改成True 可以继续接着训练
+        "--resume", default=False,  #False修改成True 可以继续接着训练    #再次修改为False
         action="store_true", help="resume training"
     )
-    parser.add_argument("-c", "--ckpt", default="YOLOX_outputs/yolox_voc_s/epoch_290_ckpt.pth",  #修改权重？文件 None-》yolox_s.pth
+    parser.add_argument("-c", "--ckpt", default="yolox_s.pth",  #修改权重？文件 None-》yolox_s.pth  之前测试的YOLOX_outputs/yolox_voc_s/epoch_290_ckpt.pth
                                                             #要接着训练的话，修改成default="YOLOX_outputs/yolox_voc_s/best_ckpt.pth"
                         type=str, help="checkpoint file")
     parser.add_argument(
         "-e",
         "--start_epoch",
-        default=290,       #修改接着训练 100开始 尝试修改为290
+        default=0,       #修改接着训练 100开始 尝试修改为290   0
         type=int,
         help="resume training start epoch",
     )

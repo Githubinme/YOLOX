@@ -8,8 +8,8 @@ import numpy as np
 __all__ = ["vis"]
 
 
-def vis(img, boxes, scores, cls_ids, conf=0.5, class_names=None):
-
+def vis(img: object, boxes: object, scores: object, cls_ids: object, conf: object = 0.5, class_names: object = None) -> object:
+    result_list=[] #创建返回值数组
     for i in range(len(boxes)):
         box = boxes[i]
         cls_id = int(cls_ids[i])
@@ -20,6 +20,10 @@ def vis(img, boxes, scores, cls_ids, conf=0.5, class_names=None):
         y0 = int(box[1])
         x1 = int(box[2])
         y1 = int(box[3])
+        class_name=class_names[cls_id]  #修改添加类名
+        one_line=(str(x0),str(y0),str(x1),str(y1),class_name,str(float(score))) #修改添加办法
+        str_one_line=" ".join(one_line)  #修改给中间加个空格
+        result_list.append(str_one_line) #修改添加 append
 
         color = (_COLORS[cls_id] * 255).astype(np.uint8).tolist()
         text = '{}:{:.1f}%'.format(class_names[cls_id], score * 100)
@@ -39,7 +43,7 @@ def vis(img, boxes, scores, cls_ids, conf=0.5, class_names=None):
         )
         cv2.putText(img, text, (x0, y0 + txt_size[1]), font, 0.4, txt_color, thickness=1)
 
-    return img
+    return img,result_list #添加result_list
 
 
 _COLORS = np.array(

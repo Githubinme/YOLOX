@@ -23,13 +23,14 @@ IMAGE_EXT = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
 def make_parser():
     parser = argparse.ArgumentParser("YOLOX Demo!")
     parser.add_argument(
-        "demo", default="image", help="demo type, eg. image, video and webcam"
+        "--demo", default="image", help="demo type, eg. image, video and webcam"  #添加-- 解决bugYOLOX Demo!: error: the following arguments are required: demo
+
     )
     parser.add_argument("-expn", "--experiment-name", type=str, default=None)
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
 
     parser.add_argument(
-        "--path", default="./assets/aircraft_107.jpg", #修改 "./assets/dog.jpg" ->
+        "--path", default="../assets/aircraft_107.jpg", #修改 "./assets/dog.jpg" ->
         help="path to images or video"
     )
     parser.add_argument("--camid", type=int, default=0, help="webcam demo camera id")
@@ -44,11 +45,11 @@ def make_parser():
     parser.add_argument(
         "-f",
         "--exp_file",
-        default='exps/example/yolox_voc/yolox_voc_s.py', #修改None->exps/example/yolox_voc/yolox_voc_s.py
+        default='../exps/example/yolox_voc/yolox_voc_s.py', #修改None->exps/example/yolox_voc/yolox_voc_s.py
         type=str,
         help="please input your experiment description file",
     )
-    parser.add_argument("-c", "--ckpt", default="YOLOX_outputs/yolox_voc_s/latest_ckpt.pth",# 修改None-》"YOLOX_outputs/yolox_voc_s/latest_ckpt.pth"
+    parser.add_argument("-c", "--ckpt", default="../YOLOX_outputs/yolox_voc_s/latest_ckpt.pth",# 修改None-》"YOLOX_outputs/yolox_voc_s/latest_ckpt.pth"
                         type=str, help="ckpt for eval")
     parser.add_argument(
         "--device",
@@ -187,8 +188,8 @@ class Predictor(object):
         cls = output[:, 6]
         scores = output[:, 4] * output[:, 5]
 
-        vis_res = vis(img, bboxes, scores, cls, cls_conf, self.cls_names)
-        return vis_res
+        vis_res,result_list = vis(img, bboxes, scores, cls, cls_conf, self.cls_names) #修改添加result_list
+        return vis_res,result_list  #修改添加result_list
 
 
 def image_demo(predictor, vis_folder, path, current_time, save_result):
@@ -199,7 +200,7 @@ def image_demo(predictor, vis_folder, path, current_time, save_result):
     files.sort()
     for image_name in files:
         outputs, img_info = predictor.inference(image_name)
-        result_image = predictor.visual(outputs[0], img_info, predictor.confthre)
+        result_image,result_list = predictor.visual(outputs[0], img_info, predictor.confthre)  #添加返回参量result_list
         if save_result:
             save_folder = os.path.join(
                 vis_folder, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)
@@ -207,6 +208,12 @@ def image_demo(predictor, vis_folder, path, current_time, save_result):
             os.makedirs(save_folder, exist_ok=True)
             save_file_name = os.path.join(save_folder, os.path.basename(image_name))
             logger.info("Saving detection result in {}".format(save_file_name))
+            txt_name = os.path.splitext(save_file_name)[0] + ".txt"  #修改添加txt文件
+            print(txt_name)  #打印文件名
+            f=open(txt_name,'w')  #以write形式打开
+            for line in result_list:
+                f.write(str(line)+'\n')  #循环写入文档
+            f.close()  #关闭txt文件
             cv2.imwrite(save_file_name, result_image)
         ch = cv2.waitKey(0)
         if ch == 27 or ch == ord("q") or ch == ord("Q"):
