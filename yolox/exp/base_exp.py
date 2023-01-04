@@ -19,7 +19,7 @@ class BaseExp(metaclass=ABCMeta):
 
     def __init__(self):
         self.seed = None
-        self.output_dir = "../YOLOX_outputs"  #修改为父目录试试
+        self.output_dir = "./YOLOX_outputs"  #修改为父目录试试  训练失败，改回当前目录
         self.print_interval = 100
         self.eval_interval = 10
 
