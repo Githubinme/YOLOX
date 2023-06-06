@@ -16,7 +16,7 @@ class SiLU(nn.Module):
 
 def get_activation(name="silu", inplace=True):
     if name == "silu":
-        module = nn.SiLU(inplace=inplace)
+        module = nn.SiLU (inplace=inplace)
     elif name == "relu":
         module = nn.ReLU(inplace=inplace)
     elif name == "lrelu":
@@ -183,7 +183,6 @@ class CSPLayer(nn.Module):
         x_1 = self.m(x_1)
         x = torch.cat((x_1, x_2), dim=1)
         return self.conv3(x)
-
 
 class Focus(nn.Module):
     """Focus width and height information into channel space."""

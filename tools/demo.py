@@ -23,7 +23,7 @@ IMAGE_EXT = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
 def make_parser():
     parser = argparse.ArgumentParser("YOLOX Demo!")
     parser.add_argument(
-        "--demo", default="image", help="demo type, eg. image, video and webcam"  #添加-- 解决bugYOLOX Demo!: error: the following arguments are required: demo
+        "--demo", default="video", help="demo type, eg. image, video and webcam"  #添加-- 解决bugYOLOX Demo!: error: the following arguments are required: demo   #改成video
 
     )
     parser.add_argument("-expn", "--experiment-name", type=str, default=None)
@@ -37,7 +37,7 @@ def make_parser():
     parser.add_argument(
         "--save_result",
         action="store_true",
-        default=True,  #添加True语句
+        default=False,  #添加True语句  不存结果
         help="whether to save the inference result of image/video",
     )
 
@@ -223,7 +223,7 @@ def image_demo(predictor, vis_folder, path, current_time, save_result):
 def imageflow_demo(predictor, vis_folder, current_time, args):
     cap = cv2.VideoCapture(args.path if args.demo == "video" else args.camid)
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)  # float
-    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float
+    height: None = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float
     fps = cap.get(cv2.CAP_PROP_FPS)
     if args.save_result:
         save_folder = os.path.join(
