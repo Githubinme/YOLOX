@@ -24,6 +24,7 @@ VOC_CLASSES = (
     # "sofa",
     # "train",
     # "tvmonitor",
-    "aircraft",   #草，打错字了
-    "oiltank",   #2022.11.23修改VOC类名 变更为2个 加上逗号
+    # "aircraft",   #草，打错字了
+    # "oiltank",   #2022.11.23修改VOC类名 变更为2个 加上逗号
+    "cutter",  #2023.6.6修改为cutter
 )

@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 # Copyright (c) Megvii, Inc. and its affiliates.
+#no module named'yolox'bug 解决： sys.path.append('这个文件夹绝对路径')
+#OMP: Error #15: Initializing libiomp5md.dll, but found libiomp5md.dll already initialized.出现OMPbug
 
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 import argparse
 import random
 import warnings
@@ -30,14 +34,14 @@ def make_parser():
         type=str,
         help="url used to set up distributed training",
     )
-    parser.add_argument("-b", "--batch-size", type=int, default=64, help="batch size")
+    parser.add_argument("-b", "--batch-size", type=int, default=64, help="batch size")   #知乎使用了4   b使用了2
     parser.add_argument(
-        "-d", "--devices", default=None, type=int, help="device for training"
+        "-d", "--devices", default=None, type=int, help="device for training"    #b站教程使用了1 知乎同
     )
     parser.add_argument(
         "-f",
         "--exp_file",
-        default=None,
+        default=None,   #试验文件  这里使用yolox_voc_s.py B和知乎都是这个
         type=str,
         help="plz input your experiment description file",
     )
