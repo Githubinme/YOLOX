@@ -23,21 +23,21 @@ IMAGE_EXT = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
 def make_parser():
     parser = argparse.ArgumentParser("YOLOX Demo!")
     parser.add_argument(
-        "--demo", default="video", help="demo type, eg. image, video and webcam"  #添加-- 解决bugYOLOX Demo!: error: the following arguments are required: demo   #改成video
+        "--demo", default="image", help="demo type, eg. image, video and webcam"  #添加-- 解决bugYOLOX Demo!: error: the following arguments are required: demo   #改成video
 
     )
     parser.add_argument("-expn", "--experiment-name", type=str, default=None)
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
 
     parser.add_argument(
-        "--path", default="../assets/aircraft_107.jpg", #修改 "./assets/dog.jpg" ->
+        "--path", default="../assets/blue1.jpg", #修改 "./assets/dog.jpg" ->../assets/aircraft_107.jpg  再改成blue1.jpg
         help="path to images or video"
     )
     parser.add_argument("--camid", type=int, default=0, help="webcam demo camera id")
     parser.add_argument(
         "--save_result",
         action="store_true",
-        default=False,  #添加True语句  不存结果
+        default=True,  #添加True语句  不存结果
         help="whether to save the inference result of image/video",
     )
 
